@@ -1,19 +1,30 @@
-import { Image, StyleSheet, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Typography } from "./components/typography";
+import { Header } from "./components/header";
+import { Notes } from "./components/notes";
+import { NoteItemInterface } from "./interfaces/NoteItemInterface";
 
 export default function Index() {
+  const [notes, setNotes] = useState<NoteItemInterface[]>([
+    { id: "1", title: "Note 1" },
+    { id: "2", title: "Note 2" },
+    { id: "3", title: "Note 3" },
+  ]);
+  const [newNoteText, setNewNoteText] = useState("");
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Image
-          source={require("../assets/downloaded/notes_image.png")}
-          style={{ width: 100, height: 100 }}
-          resizeMode="contain"
+      <Header setNotes={setNotes} />
+      <View>
+        <TextInput
+          value={newNoteText}
+          onChangeText={setNewNoteText}
+          placeholder="Type your note here..."
+          style={styles.textInput}
         />
-        <Typography variant="h1">Notes</Typography>
       </View>
-      <Typography variant="body">Note1</Typography>
+      <Notes notes={notes} />
     </SafeAreaView>
   );
 }
@@ -31,6 +42,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
     paddingBottom: 12,
+    marginBottom: 20,
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#d8c4c4",
+    borderRadius: 8,
+    padding: 12,
     marginBottom: 20,
   },
 });
